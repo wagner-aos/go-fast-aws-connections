@@ -1,8 +1,9 @@
 package facsqs
 
 import (
-	"asappay-payment-processor/awscredentials"
 	"fmt"
+
+	"go-fast-aws-connections/fac_clients"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/sqs"
@@ -14,9 +15,9 @@ var (
 	sqsAPI sqsiface.SQSAPI
 )
 
-func init() {
-	c := &awscredentials.Clients{}
-	sqsAPI = c.SQS("asappay-Dev")
+//Init - initializes SQS client
+func Init(profile string) {
+	sqsAPI = facclients.SQS("asappay-Dev")
 }
 
 //SendMessage - it sends message to any SQS Queue
@@ -39,6 +40,21 @@ func SendMessage(queueName string, message string) {
 	}
 
 	fmt.Println("Success", *result.MessageId)
+}
+
+//ListQueues - list all available sqs queues
+func ListQueues() {
+
+	result, err := sqsAPI.ListQueues(nil)
+	if err != nil {
+		fmt.Printf("Error: %x", err)
+	}
+
+	for _, b := range result.QueueUrls {
+		fmt.Printf("* %s \n",
+			aws.StringValue(b))
+	}
+
 }
 
 //getQueueURL - get queue entire URL in order to send messages to SQS.

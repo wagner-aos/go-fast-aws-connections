@@ -16,12 +16,6 @@ import (
 	"github.com/aws/aws-sdk-go/aws/credentials/stscreds"
 	"github.com/aws/aws-sdk-go/aws/ec2metadata"
 	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/dynamodb"
-	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbiface"
-	"github.com/aws/aws-sdk-go/service/s3"
-	"github.com/aws/aws-sdk-go/service/s3/s3iface"
-	"github.com/aws/aws-sdk-go/service/sqs"
-	"github.com/aws/aws-sdk-go/service/sqs/sqsiface"
 	"github.com/aws/aws-sdk-go/service/sts"
 )
 
@@ -35,7 +29,31 @@ type Clients struct {
 }
 
 //Session - session
-func (c Clients) Session(profile string) *session.Session {
+func (c Clients) Session() *session.Session {
+	if c.session != nil {
+		return c.session
+	}
+
+	//Read AWS Config File
+
+	// Initial credentials loaded from SDK's default credential chain. Such as
+	// the environment, shared credentials (~/.aws/credentials), or EC2 Instance
+	// Role. These credentials will be used to to make the STS Assume Role API.
+
+	//logLevel := aws.LogDebugWithHTTPBody
+
+	sess := session.Must(session.NewSession(
+		&aws.Config{
+			//Region: &awsProfile.Region,
+			//LogLevel: &logLevel,
+		}))
+
+	c.session = sess
+	return sess
+}
+
+//SessionWithProfile - session
+func (c Clients) SessionWithProfile(profile string) *session.Session {
 	if c.session != nil {
 		return c.session
 	}
@@ -88,7 +106,7 @@ func (c Clients) Config(profile string) *aws.Config {
 		return c.configs[key]
 	}
 
-	stsclient := sts.New(c.Session(profile))
+	stsclient := sts.New(c.SessionWithProfile(profile))
 	creds := credentials.NewChainCredentials([]credentials.Provider{
 
 		&stscreds.AssumeRoleProvider{
@@ -97,7 +115,7 @@ func (c Clients) Config(profile string) *aws.Config {
 		},
 		&credentials.EnvProvider{},
 		&ec2rolecreds.EC2RoleProvider{
-			Client: ec2metadata.New(c.Session(profile)),
+			Client: ec2metadata.New(c.Session()),
 		},
 		&credentials.SharedCredentialsProvider{
 			Profile: profile,
@@ -124,6 +142,7 @@ func (c Clients) Config(profile string) *aws.Config {
 	return config
 }
 
+/*
 // S3 - client
 func (c *Clients) S3(profile string) s3iface.S3API {
 	return s3.New(c.Session(profile), c.Config(profile))
@@ -138,3 +157,4 @@ func (c *Clients) SQS(profile string) sqsiface.SQSAPI {
 func (c *Clients) DynamoDB(profile string) dynamodbiface.DynamoDBAPI {
 	return dynamodb.New(c.Session(profile), c.Config(profile))
 }
+*/
