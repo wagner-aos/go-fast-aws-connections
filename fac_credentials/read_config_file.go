@@ -146,20 +146,3 @@ func (c *AWSConfigFile) PrintProfiles() {
 		fmt.Printf("ROLE_ARN: %10s \n\n", value.RoleARN)
 	}
 }
-
-/*
-func main() {
-
-	//config := &AWSConfigFile{}
-	Init()
-	//config.ReadConfig(sharedConfigFilename())
-	//config.PrintProfiles()
-
-	awsProfile := GetProfile("asappay-Dev")
-	println(awsProfile.AccountID)
-	println(awsProfile.Region)
-	println(awsProfile.Role)
-	println(awsProfile.RoleARN)
-
-}
-*/
