@@ -141,20 +141,3 @@ func (c Clients) Config(profile string) *aws.Config {
 	c.configs[key] = config
 	return config
 }
-
-/*
-// S3 - client
-func (c *Clients) S3(profile string) s3iface.S3API {
-	return s3.New(c.Session(profile), c.Config(profile))
-}
-
-// SQS - client
-func (c *Clients) SQS(profile string) sqsiface.SQSAPI {
-	return sqs.New(c.Session(profile), c.Config(profile))
-}
-
-// DynamoDB - client
-func (c *Clients) DynamoDB(profile string) dynamodbiface.DynamoDBAPI {
-	return dynamodb.New(c.Session(profile), c.Config(profile))
-}
-*/
