@@ -1,4 +1,4 @@
-package main
+package test
 
 import (
 	"go-fast-aws-connections/fac_dynamodb"
@@ -6,7 +6,7 @@ import (
 	"go-fast-aws-connections/fac_sqs"
 )
 
-func main() {
+func testes() {
 
 	profile := "asappay-Mgmt"
 
@@ -14,7 +14,7 @@ func main() {
 	facs3.Init(profile)
 	facs3.ListBuckets()
 
-	facsqs.Init(profile)
+	facsqs.Start(profile)
 	facsqs.ListQueues()
 
 	facdynamodb.Init(profile)

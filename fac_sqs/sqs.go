@@ -20,19 +20,35 @@ func Start(profile string) {
 	sqsAPI = facclients.SQS(profile)
 }
 
-//SendMessage - it sends message to any SQS Queue
-func SendMessage(messageInput *sqs.SendMessageInput) (*sqs.SendMessageOutput, error) {
+//SendMessageInput - it sends message input to any SQS Queue
+func SendMessageInput(messageInput *sqs.SendMessageInput) (*sqs.SendMessageOutput, error) {
 
-	queueName := messageInput.QueueUrl
-	queueURL := GetQueueURL(queueName)
-	print(queueURL)
+	queueURL := GetQueueURL(*messageInput.QueueUrl)
 	messageInput.SetQueueUrl(*queueURL)
 
-	//DelaySeconds: aws.Int64(10),
 	result, err := sqsAPI.SendMessage(messageInput)
-
 	if err != nil {
-		fmt.Printf("Error sending message to queue: %s , %s ", *queueName, err)
+		fmt.Printf("Error sending message to queue: %s , %s ", *messageInput.QueueUrl, err)
+		return nil, err
+	}
+
+	fmt.Println("Success", *result.MessageId)
+	return result, nil
+}
+
+//SendMessage - it sends message to any SQS Queue
+func SendMessage(queueName string, message string) (*sqs.SendMessageOutput, error) {
+
+	queueURL := GetQueueURL(queueName)
+
+	messageInput := &sqs.SendMessageInput{
+		MessageBody: aws.String(message),
+		QueueUrl:    queueURL,
+	}
+
+	result, err := sqsAPI.SendMessage(messageInput)
+	if err != nil {
+		fmt.Printf("Error sending message to queue: %s , %s ", queueName, err)
 		return nil, err
 	}
 
@@ -56,10 +72,10 @@ func ListQueues() {
 }
 
 //GetQueueURL - get queue entire URL in order to send messages to SQS.
-func GetQueueURL(queueName *string) *string {
+func GetQueueURL(queueName string) *string {
 
 	output, err := sqsAPI.GetQueueUrl(&sqs.GetQueueUrlInput{
-		QueueName: queueName,
+		QueueName: &queueName,
 	})
 	if err != nil {
 		fmt.Println("Error recovering queueURL:", err)

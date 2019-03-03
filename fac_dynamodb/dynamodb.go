@@ -13,8 +13,8 @@ var (
 	dynamodbAPI dynamodbiface.DynamoDBAPI
 )
 
-//Init - initializes S3 client
-func Init(profile string) {
+//Start - initializes S3 client
+func Start(profile string) {
 	dynamodbAPI = facclients.DynamoDB("asappay-Dev")
 }
 

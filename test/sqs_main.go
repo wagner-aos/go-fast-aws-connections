@@ -1,4 +1,4 @@
-package main
+package test
 
 import (
 	"go-fast-aws-connections/fac_sqs"
