@@ -122,12 +122,6 @@ func (c Clients) Config(profile string) *aws.Config {
 		},
 	})
 
-	// new creds
-
-	//creds = stscreds.NewCredentials(c.Session(), arn)
-	if creds == nil {
-	}
-
 	// New config with Credentials
 	config := aws.NewConfig().
 		WithCredentials(creds).
