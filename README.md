@@ -1,8 +1,7 @@
+# GO Fast AWS Connections API
 | Data | Autor | Comentarios | Versao |
 | --- | --- | --- | --- |
 | 10/01/2019 | Wagner Alves (aka Barão) | Initial Version | 0.0.3 |
-
-# GO Fast AWS Connections API
 
 É uma API de adapters desenvolvida para integração com alguns serviços da AWS [Amazon AWS Cloud](https://aws.amazon.com) (DynamoDB, SQS, SNS, S3, Lambda) para aplicações feitas em [GO/GOLANG](https://golang.org/)
 
@@ -141,7 +140,7 @@ Method to send messages to SQS Queue:
 
 | Data | Autor | Descrição | Versao |
 | --- | --- | --- | --- |
-| 10/02/2017 | Wagner Alves (aka Barão) | Initial Version | 1.0.0 | 
+| 03/01/2019 | Wagner Alves (aka Barão) | Initial Version | 0.0.1 | 
 
 ## Restrições:
 
