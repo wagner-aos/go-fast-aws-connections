@@ -3,7 +3,7 @@
 | --- | --- | --- | --- |
 | 10/01/2019 | Wagner Alves (aka Barão) | Initial Version | 0.0.3 |
 
-É uma API de adapters desenvolvida para integração com alguns serviços da AWS [Amazon AWS Cloud](https://aws.amazon.com) (DynamoDB, SQS, SNS, S3, Lambda) para aplicações feitas em [GO/GOLANG](https://golang.org/)
+É uma API de adapters desenvolvida para integração com alguns serviços da [Amazon Web Services](https://aws.amazon.com), DynamoDB, SQS, SNS, S3, Lambda) para aplicações feitas em [GO/GOLANG](https://golang.org/)
 
 ## O que a API fornece:
 
