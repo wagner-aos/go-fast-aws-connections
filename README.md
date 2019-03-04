@@ -4,15 +4,17 @@
 
 # GO Fast AWS Connections API
 
-É uma API de adapters desenvolvida para integração com alguns serviços da AWS [Amazon AWS Cloud](https://aws.amazon.com) (DynamoDB, SQS, SNS, S3, Lambda).
+É uma API de adapters desenvolvida para integração com alguns serviços da AWS [Amazon AWS Cloud](https://aws.amazon.com) (DynamoDB, SQS, SNS, S3, Lambda) para aplicações feitas em [GO/GOLANG](https://golang.org/)
 
 ## O que a API fornece:
 
-> Fornece conexões e abstrações para os serviços citados acima, centralizando todo codigo de infraestrutura e facilitando a interação com os recursos e/ou serviços.
+> Fornece conexões e abstrações para os serviços citados acima, centralizando todo codigo de infraestrutura e facilitando a interação com os recursos e/ou serviços pois a api automatiza a obtenção de credenciais por meio de uma cadeia (environment, shared credentias, ec2 metadata, etc...).
 
 ## IMPORTANTE:
 
-> As conexões estão configuradas com um provider para pegar o valor diretamente das variáveis de ambiente OU do arquivos 'credentials' e 'config' que fica localizado na pasta: usuario/.aws/ (http://docs.aws.amazon.com/pt_br/cli/latest/userguide/cli-chap-getting-started.html) configurado na máquina).
+> As conexões estão configuradas com um provider para pegar o valor diretamente das variáveis de ambiente OU do arquivos 'credentials' e 'config' que fica localizado na pasta: usuario/.aws/
+
+(http://docs.aws.amazon.com/pt_br/cli/latest/userguide/cli-chap-getting-started.html) configurado na máquina).
 
 ## Exemplo do arquivo 'credentials' em: usuario/.aws/credentials
 
@@ -25,6 +27,7 @@ region = us-east-1
 ```
 
 ## Exemplo do arquivo 'config' em: usuario/.aws/config
+> para interação em várias contas por meio do cross account.
 
 ```
 [profile company-dev]
@@ -41,7 +44,7 @@ region = us-east-1
 
 [profile company-prd]
 output = json
-role_arn = arn:aws:iam::ACCOUNT_ID:role/IamRoleAdmin
+role_arn = arn:aws:iam::ACCOUNT_ID:role/IamRoleRO
 source_profile = company
 region = us-east-1
 
@@ -84,11 +87,9 @@ Links úteis:
 [Arquivos de Configuração de Credencial](http://docs.aws.amazon.com/pt_br/cli/latest/userguide/cli-config-files.html)
 
 
-## Exemplos de utilização:
+# SQS - How to use:
 
-Exemplo AWS SQS:
-
-Inserindo dependencia:
+Inserting dependencies:
  
 ``` 
     package awssqs
@@ -99,9 +100,7 @@ Inserindo dependencia:
 
 ```
 
-# SQS
-
-Inicializando o client:
+Starting the client:
 
 ```
     func init() {
@@ -111,7 +110,7 @@ Inicializando o client:
 
 ```
 
-Method to send messages:
+Method to send messages to SQS Queue:
 
 ```
     func SendMessage(queueName string, message string) {
@@ -129,11 +128,11 @@ Method to send messages:
 
 ```
 
-# DynamoDB
+# DynamoDB - How to use:
 ```
 
 ```
-# S3
+# S3 - How to use:
 ```
 
 ```
