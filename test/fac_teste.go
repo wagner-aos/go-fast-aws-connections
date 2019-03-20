@@ -1,4 +1,4 @@
-package test
+package teste
 
 import (
 	"go-fast-aws-connections/fac_dynamodb"
@@ -6,18 +6,18 @@ import (
 	"go-fast-aws-connections/fac_sqs"
 )
 
-func testes() {
+func test() {
 
-	profile := "asappay-Mgmt"
+	profile := "asappay-Dev"
 
 	//profile
-	facs3.Init(profile)
+	facs3.Start(profile)
 	facs3.ListBuckets()
 
 	facsqs.Start(profile)
 	facsqs.ListQueues()
 
-	facdynamodb.Init(profile)
+	facdynamodb.Start(profile)
 	facdynamodb.ListTables()
 
 }

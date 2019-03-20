@@ -42,8 +42,9 @@ func SendMessage(queueName string, message string) (*sqs.SendMessageOutput, erro
 	queueURL := GetQueueURL(queueName)
 
 	messageInput := &sqs.SendMessageInput{
-		MessageBody: aws.String(message),
-		QueueUrl:    queueURL,
+		MessageBody:    aws.String(message),
+		MessageGroupId: aws.String("GroupID"),
+		QueueUrl:       queueURL,
 	}
 
 	result, err := sqsAPI.SendMessage(messageInput)

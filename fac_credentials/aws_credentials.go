@@ -40,12 +40,12 @@ func (c Clients) Session() *session.Session {
 	// the environment, shared credentials (~/.aws/credentials), or EC2 Instance
 	// Role. These credentials will be used to to make the STS Assume Role API.
 
-	//logLevel := aws.LogDebugWithHTTPBody
+	logLevel := aws.LogDebugWithHTTPBody
 
 	sess := session.Must(session.NewSession(
 		&aws.Config{
 			//Region: &awsProfile.Region,
-			//LogLevel: &logLevel,
+			LogLevel: &logLevel,
 		}))
 
 	c.session = sess
