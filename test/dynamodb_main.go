@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"go-fast-aws-connections/fac_dynamodb"
 	"log"
 
@@ -9,7 +10,7 @@ import (
 )
 
 func main() {
-	scan()
+	query()
 }
 
 func query() {
@@ -17,7 +18,8 @@ func query() {
 
 	facdynamodb.Start(profile)
 
-	posID := "00000001"
+	posID := "00000002"
+	merchantID := "000000000000001"
 
 	queryInput := &dynamodb.QueryInput{
 		TableName: aws.String("PaymentProcessorProduct"),
@@ -31,6 +33,14 @@ func query() {
 					},
 				},
 			},
+			"merchantID": {
+				ComparisonOperator: aws.String("EQ"),
+				AttributeValueList: []*dynamodb.AttributeValue{
+					{
+						S: aws.String(merchantID),
+					},
+				},
+			},
 		},
 	}
 
@@ -39,26 +49,27 @@ func query() {
 		log.Println(err)
 	}
 
-	print(result.Items)
+	fmt.Println("Success:")
+	fmt.Print(result.String())
 
 }
 
 func scan() {
 
-	profile := "asappay-Dev"
+	// profile := "asappay-Dev"
 
-	facdynamodb.Start(profile)
+	// facdynamodb.Start(profile)
 
-	result, err := facdynamodb.Scan(&dynamodb.ScanInput{
-		TableName: aws.String("PaymentProcessorProduct"),
-	})
-	if err != nil {
-		log.Println(err)
-	}
+	// result, err := facdynamodb.Scan(&dynamodb.ScanInput{
+	// 	TableName: aws.String("PaymentProcessorProduct"),
+	// })
+	// if err != nil {
+	// 	log.Println(err)
+	// }
 
-	for _, v := range result.Items {
-		//j, _ := json.Marshal(v)
-		print(string(v))
-	}
+	// for _, v := range result.Items {
+	// 	//j, _ := json.Marshal(v)
+	// 	print(string(v))
+	// }
 
 }
