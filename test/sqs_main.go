@@ -1,7 +1,7 @@
 package test
 
 import (
-	"go-fast-aws-connections/fac_sqs"
+	"github.com/wagner-aos/go-fast-aws-connections/fac_sqs"
 )
 
 func main() {

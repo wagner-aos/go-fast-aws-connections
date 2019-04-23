@@ -1,7 +1,7 @@
 package facclients
 
 import (
-	awscredentials "go-fast-aws-connections/fac_credentials"
+	awscredentials "github.com/wagner-aos/go-fast-aws-connections/fac_credentials"
 
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbiface"

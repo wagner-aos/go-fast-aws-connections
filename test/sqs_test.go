@@ -1,8 +1,9 @@
 package test
 
 import (
-	"go-fast-aws-connections/fac_sqs"
 	"testing"
+
+	"github.com/wagner-aos/go-fast-aws-connections/fac_sqs"
 )
 
 var profile = "asappay-Dev"

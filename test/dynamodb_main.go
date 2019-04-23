@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"go-fast-aws-connections/fac_dynamodb"
 	"log"
+
+	"github.com/wagner-aos/go-fast-aws-connections/fac_dynamodb"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/dynamodb"

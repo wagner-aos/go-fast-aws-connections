@@ -2,8 +2,9 @@ package main
 
 import (
 	"encoding/json"
-	"go-fast-aws-connections/fac_dynamodb"
 	"log"
+
+	"github.com/wagner-aos/go-fast-aws-connections/fac_dynamodb"
 )
 
 type POSContract struct {

@@ -1,9 +1,7 @@
 package teste
 
 import (
-	"go-fast-aws-connections/fac_dynamodb"
-	"go-fast-aws-connections/fac_s3"
-	"go-fast-aws-connections/fac_sqs"
+	"github.com/wagner-aos/go-fast-aws-connections/fac_dynamodb"
 )
 
 func test() {

@@ -2,9 +2,10 @@ package facdynamodb
 
 import (
 	"fmt"
-	"go-fast-aws-connections/fac_clients"
 	"log"
 	"os"
+
+	"github.com/wagner-aos/go-fast-aws-connections/fac_clients"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/dynamodb"

@@ -2,9 +2,8 @@ package facs3
 
 import (
 	"fmt"
-	"go-fast-aws-connections/fac_clients"
 
-	//"github.com/wagner-aos/go-fast-aws-connections/"
+	"github.com/wagner-aos/go-fast-aws-connections/fac_clients"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/s3"
