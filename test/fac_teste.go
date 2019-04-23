@@ -1,4 +1,4 @@
-package teste
+package test
 
 import (
 	"github.com/wagner-aos/go-fast-aws-connections/fac_dynamodb"

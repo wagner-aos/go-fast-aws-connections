@@ -38,58 +38,63 @@ func (c *AWSConfigFile) ReadConfig(configfile string) {
 	//New profiles map
 	c.Profiles = make(map[string]AWSProfile)
 
-	//Opening file
-	file, err := os.Open(configfile)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer file.Close()
+	if _, err := os.Stat(configfile); err == nil {
 
-	//Reading aws config file in order to extract values
-	//for profile and role_arn
-	scanner := bufio.NewScanner(file)
-	keyMapStr := ""
-	roleArnStr := ""
-	regionStr := ""
-	accountIDStr := ""
-	roleStr := ""
-
-	for scanner.Scan() {
-		lineRead := scanner.Text()
-
-		if strings.HasPrefix(lineRead, "[") {
-			keyMapStr = strings.Replace(lineRead, "[", "", 1)
-			keyMapStr = strings.Replace(keyMapStr, "profile", "", 1)
-			keyMapStr = strings.Replace(keyMapStr, "]", "", 1)
-			keyMapStr = strings.Trim(keyMapStr, " ")
-
+		//Opening file
+		file, err := os.Open(configfile)
+		if err != nil {
+			log.Fatal(err)
 		}
-		if strings.Contains(lineRead, "role_arn") {
-			accountIDStr, roleStr = splitRoleARN(lineRead)
-			roleArnStr = strings.Replace(lineRead, "role_arn", "", 1)
-			roleArnStr = strings.Replace(roleArnStr, "=", "", 1)
-			roleArnStr = strings.Trim(roleArnStr, " ")
-		}
-		if strings.Contains(lineRead, "region") {
-			regionStr = strings.Replace(lineRead, "region", "", 1)
-			regionStr = strings.Replace(regionStr, "=", "", 1)
-			regionStr = strings.Trim(regionStr, " ")
-		}
+		defer file.Close()
 
-		if len(keyMapStr) > 0 && len(roleArnStr) > 0 {
+		//Reading aws config file in order to extract values
+		//for profile and role_arn
+		scanner := bufio.NewScanner(file)
+		keyMapStr := ""
+		roleArnStr := ""
+		regionStr := ""
+		accountIDStr := ""
+		roleStr := ""
 
-			c.Profiles[keyMapStr] = AWSProfile{
-				Region:    regionStr,
-				AccountID: accountIDStr,
-				Role:      roleStr,
-				RoleARN:   roleArnStr,
+		for scanner.Scan() {
+			lineRead := scanner.Text()
+
+			if strings.HasPrefix(lineRead, "[") {
+				keyMapStr = strings.Replace(lineRead, "[", "", 1)
+				keyMapStr = strings.Replace(keyMapStr, "profile", "", 1)
+				keyMapStr = strings.Replace(keyMapStr, "]", "", 1)
+				keyMapStr = strings.Trim(keyMapStr, " ")
+
 			}
-			keyMapStr = ""
-			roleArnStr = ""
-			regionStr = ""
-			accountIDStr = ""
-			roleStr = ""
+			if strings.Contains(lineRead, "role_arn") {
+				accountIDStr, roleStr = splitRoleARN(lineRead)
+				roleArnStr = strings.Replace(lineRead, "role_arn", "", 1)
+				roleArnStr = strings.Replace(roleArnStr, "=", "", 1)
+				roleArnStr = strings.Trim(roleArnStr, " ")
+			}
+			if strings.Contains(lineRead, "region") {
+				regionStr = strings.Replace(lineRead, "region", "", 1)
+				regionStr = strings.Replace(regionStr, "=", "", 1)
+				regionStr = strings.Trim(regionStr, " ")
+			}
+
+			if len(keyMapStr) > 0 && len(roleArnStr) > 0 {
+
+				c.Profiles[keyMapStr] = AWSProfile{
+					Region:    regionStr,
+					AccountID: accountIDStr,
+					Role:      roleStr,
+					RoleARN:   roleArnStr,
+				}
+				keyMapStr = ""
+				roleArnStr = ""
+				regionStr = ""
+				accountIDStr = ""
+				roleStr = ""
+			}
 		}
+	} else {
+		log.Printf("AWS Config: %s not found!!!", configfile)
 	}
 
 }
