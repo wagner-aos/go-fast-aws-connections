@@ -64,7 +64,8 @@ func messageSender(messageInput *sqs.SendMessageInput) (*sqs.SendMessageOutput, 
 		return nil, err
 	}
 
-	golog.Infof("[fac_sqs]-Success: %s", *result.MessageId)
+	golog.Info("[fac_sqs]-Send Message OK.")
+	golog.Infof("[fac_sqs]-MessageID: %s", *result.MessageId)
 	return result, nil
 }
 
