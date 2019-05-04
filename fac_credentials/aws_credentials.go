@@ -8,7 +8,6 @@ package awscredentials
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
@@ -17,6 +16,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/ec2metadata"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/sts"
+	"github.com/kataras/golog"
 )
 
 var awsProfile AWSProfile
@@ -94,12 +94,12 @@ func (c Clients) Config(profile string) *aws.Config {
 		awsProfile.AccountID,
 		awsProfile.Role,
 	)
-	log.Printf("ARN: %s", arn)
+	golog.Infof("ARN: %s", arn)
 
 	// include region in cache key otherwise concurrency errors
 	key := fmt.Sprintf("%v::%v", awsProfile.Region, arn)
 
-	log.Printf("Key: %s", key)
+	golog.Infof("Key: %s", key)
 
 	// check for cached config
 	if c.configs != nil && c.configs[key] != nil {

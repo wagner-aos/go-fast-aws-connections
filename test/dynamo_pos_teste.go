@@ -71,5 +71,5 @@ func createProduct(id string, brand string, transactionType string, active bool)
 //JSON PRINT
 func printObject(obj interface{}) {
 	result, _ := json.MarshalIndent(obj, "", "  ")
-	log.Println("\n" + string(result))
+	golog.Info("\n" + string(result))
 }

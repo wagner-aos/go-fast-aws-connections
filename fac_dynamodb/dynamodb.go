@@ -1,10 +1,9 @@
 package facdynamodb
 
 import (
-	"fmt"
-	"log"
 	"os"
 
+	"github.com/kataras/golog"
 	"github.com/wagner-aos/go-fast-aws-connections/fac_clients"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -28,8 +27,8 @@ func PutItem(tableName string, object interface{}) (*dynamodb.PutItemOutput, err
 	//Struct to DynamoItem
 	dynamodbAttributes, err := dynamodbattribute.MarshalMap(object)
 	if err != nil {
-		fmt.Println("Got error marshalling dynamo attributes map:")
-		fmt.Println(err.Error())
+		golog.Error("Got error marshalling dynamo attributes map:")
+		golog.Error(err.Error())
 		os.Exit(1)
 	}
 
@@ -39,13 +38,12 @@ func PutItem(tableName string, object interface{}) (*dynamodb.PutItemOutput, err
 		ReturnValues: aws.String("ALL_OLD"),
 	})
 	if err != nil {
-		fmt.Printf("Error when put item into DynamoDB: %s , %s ", tableName, err)
+		golog.Errorf("Error when put item into DynamoDB: %s , %s ", tableName, err)
 		return result, err
 	}
 
 	//jsonOutPut, _ := json.Marshal(result.Attributes)
-	fmt.Println("Success:")
-	fmt.Print(result.String())
+	golog.Infof("Success: %s", result.String())
 
 	return result, nil
 }
@@ -54,8 +52,8 @@ func PutItem(tableName string, object interface{}) (*dynamodb.PutItemOutput, err
 func Query(queryInput *dynamodb.QueryInput) (*dynamodb.QueryOutput, error) {
 	result, err := dynamodbAPI.Query(queryInput)
 	if err != nil {
-		log.Printf("Error: %s", err)
-		log.Println("Item not found!")
+		golog.Errorf("Error: %s", err)
+		golog.Warn("Item not found!")
 	}
 	return result, nil
 }
@@ -65,8 +63,8 @@ func Scan(scanInput *dynamodb.ScanInput) (*dynamodb.ScanOutput, error) {
 
 	result, err := dynamodbAPI.Scan(scanInput)
 	if err != nil {
-		log.Printf("Error: %s", err)
-		log.Println("Item not found!")
+		golog.Errorf("Error: %s", err)
+		golog.Warn("Item not found!")
 	}
 	return result, nil
 }
@@ -76,11 +74,11 @@ func ListTables() {
 
 	result, err := dynamodbAPI.ListTables(nil)
 	if err != nil {
-		log.Printf("Error: %s", err)
+		golog.Errorf("Error: %s", err)
 	}
 
 	for _, t := range result.TableNames {
-		fmt.Printf("* %s \n",
+		golog.Infof("* %s \n",
 			aws.StringValue(t))
 	}
 

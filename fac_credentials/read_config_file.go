@@ -2,13 +2,14 @@ package awscredentials
 
 import (
 	"bufio"
-	"fmt"
-	"log"
+
 	"os"
 	"path/filepath"
 	"regexp"
 	"runtime"
 	"strings"
+
+	"github.com/kataras/golog"
 )
 
 var config *AWSConfigFile
@@ -43,7 +44,7 @@ func (c *AWSConfigFile) ReadConfig(configfile string) {
 		//Opening file
 		file, err := os.Open(configfile)
 		if err != nil {
-			log.Fatal(err)
+			golog.Error(err)
 		}
 		defer file.Close()
 
@@ -94,7 +95,7 @@ func (c *AWSConfigFile) ReadConfig(configfile string) {
 			}
 		}
 	} else {
-		log.Printf("AWS Config: %s not found!!!", configfile)
+		golog.Warnf("AWS Config: %s not found!!!", configfile)
 	}
 
 }
@@ -136,7 +137,6 @@ func UserHomeDir() string {
 	if runtime.GOOS == "windows" { // Windows
 		return os.Getenv("USERPROFILE")
 	}
-
 	// *nix
 	return os.Getenv("HOME")
 }
@@ -144,10 +144,10 @@ func UserHomeDir() string {
 //PrintProfiles - prints all profiles obtained from .aws/config file
 func (c *AWSConfigFile) PrintProfiles() {
 	for key, value := range c.Profiles {
-		fmt.Printf("PROFILE: %10s \n", key)
-		fmt.Printf("ACCOUNT_ID: %10s \n", value.AccountID)
-		fmt.Printf("REGION: %10s \n", value.Region)
-		fmt.Printf("ROLE: %10s \n", value.Role)
-		fmt.Printf("ROLE_ARN: %10s \n\n", value.RoleARN)
+		golog.Infof("PROFILE: %10s \n", key)
+		golog.Infof("ACCOUNT_ID: %10s \n", value.AccountID)
+		golog.Infof("REGION: %10s \n", value.Region)
+		golog.Infof("ROLE: %10s \n", value.Role)
+		golog.Infof("ROLE_ARN: %10s \n\n", value.RoleARN)
 	}
 }

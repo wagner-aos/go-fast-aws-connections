@@ -1,8 +1,7 @@
 package facs3
 
 import (
-	"fmt"
-
+	"github.com/kataras/golog"
 	"github.com/wagner-aos/go-fast-aws-connections/fac_clients"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -25,12 +24,12 @@ func ListBuckets() (*s3.ListBucketsOutput, error) {
 
 	result, err := s3API.ListBuckets(nil)
 	if err != nil {
-		fmt.Printf("Error: %x", err)
+		golog.Errorf("Error: %x", err)
 		return nil, err
 	}
 
 	for _, b := range result.Buckets {
-		fmt.Printf("* %s created on %s\n",
+		golog.Errorf("* %s created on %s",
 			aws.StringValue(b.Name), aws.TimeValue(b.CreationDate))
 	}
 
@@ -43,11 +42,11 @@ func PrintBuckets() error {
 
 	result, err := s3API.ListBuckets(nil)
 	if err != nil {
-		fmt.Printf("Error: %x", err)
+		golog.Errorf("Error: %x", err)
 	}
 
 	for _, b := range result.Buckets {
-		fmt.Printf("* %s created on %s\n",
+		golog.Infof("* %s created on %s",
 			aws.StringValue(b.Name), aws.TimeValue(b.CreationDate))
 	}
 

@@ -118,7 +118,7 @@ Method to send messages to SQS Queue:
         result, err := facsqs.SendMessage(queueName, message)
 
         if err != nil {
-            fmt.Printf("Error sending message to queue: %s , %s ", queueName, err)
+            golog.Infof("Error sending message to queue: %s , %s ", queueName, err)
             return
         }
 

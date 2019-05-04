@@ -1,8 +1,7 @@
 package facsqs
 
 import (
-	"fmt"
-
+	"github.com/kataras/golog"
 	"github.com/wagner-aos/go-fast-aws-connections/fac_clients"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -61,11 +60,11 @@ func SendMessageToQueueURL(queueURL string, message string) (*sqs.SendMessageOut
 func messageSender(messageInput *sqs.SendMessageInput) (*sqs.SendMessageOutput, error) {
 	result, err := sqsAPI.SendMessage(messageInput)
 	if err != nil {
-		fmt.Printf("Error sending message to queue: %s , %s ", *messageInput.QueueUrl, err)
+		golog.Errorf("Error sending message to queue: %s , %s ", *messageInput.QueueUrl, err)
 		return nil, err
 	}
 
-	fmt.Println("Success", *result.MessageId)
+	golog.Info("Success: %s", result.MessageId)
 	return result, nil
 }
 
@@ -74,12 +73,11 @@ func ListQueues() {
 
 	result, err := sqsAPI.ListQueues(nil)
 	if err != nil {
-		fmt.Printf("Error: %x", err)
+		golog.Errorf("Error: %x", err)
 	}
 
 	for _, b := range result.QueueUrls {
-		fmt.Printf("* %s \n",
-			aws.StringValue(b))
+		golog.Infof("* %s", aws.StringValue(b))
 	}
 
 }
@@ -91,7 +89,7 @@ func GetQueueURL(queueName string) *string {
 		QueueName: &queueName,
 	})
 	if err != nil {
-		fmt.Println("Error recovering queueURL:", err)
+		golog.Errorf("Error recovering queueURL: %x", err)
 	}
 	return output.QueueUrl
 }

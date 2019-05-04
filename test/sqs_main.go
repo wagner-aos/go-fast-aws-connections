@@ -6,7 +6,7 @@ import (
 
 func main() {
 
-	profile := "asappay-Dev"
+	profile := "asappay-dev"
 
 	facsqs.Start(profile)
 	facsqs.ListQueues()

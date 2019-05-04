@@ -1,9 +1,7 @@
 package main
 
 import (
-	"fmt"
-	"log"
-
+	"github.com/kataras/golog"
 	"github.com/wagner-aos/go-fast-aws-connections/fac_dynamodb"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -47,11 +45,10 @@ func query() {
 
 	result, err := facdynamodb.Query(queryInput)
 	if err != nil {
-		log.Println(err)
+		golog.Error(err)
 	}
 
-	fmt.Println("Success:")
-	fmt.Print(result.String())
+	golog.Info("Success: %s", result.String())
 
 }
 
@@ -65,7 +62,7 @@ func scan() {
 	// 	TableName: aws.String("PaymentProcessorProduct"),
 	// })
 	// if err != nil {
-	// 	log.Println(err)
+	// 	golog.Info(err)
 	// }
 
 	// for _, v := range result.Items {
