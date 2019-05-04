@@ -144,10 +144,10 @@ func UserHomeDir() string {
 //PrintProfiles - prints all profiles obtained from .aws/config file
 func (c *AWSConfigFile) PrintProfiles() {
 	for key, value := range c.Profiles {
-		golog.Infof("PROFILE: %10s \n", key)
-		golog.Infof("ACCOUNT_ID: %10s \n", value.AccountID)
-		golog.Infof("REGION: %10s \n", value.Region)
-		golog.Infof("ROLE: %10s \n", value.Role)
-		golog.Infof("ROLE_ARN: %10s \n\n", value.RoleARN)
+		golog.Infof("PROFILE: %10s", key)
+		golog.Infof("ACCOUNT_ID: %10s", value.AccountID)
+		golog.Infof("REGION: %10s", value.Region)
+		golog.Infof("ROLE: %10s", value.Role)
+		golog.Infof("ROLE_ARN: %10s", value.RoleARN)
 	}
 }

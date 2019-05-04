@@ -27,7 +27,7 @@ func PutItem(tableName string, object interface{}) (*dynamodb.PutItemOutput, err
 	//Struct to DynamoItem
 	dynamodbAttributes, err := dynamodbattribute.MarshalMap(object)
 	if err != nil {
-		golog.Error("Got error marshalling dynamo attributes map:")
+		golog.Error("[fac_dynamo]-Got error marshalling dynamo attributes map:")
 		golog.Error(err.Error())
 		os.Exit(1)
 	}
@@ -38,12 +38,12 @@ func PutItem(tableName string, object interface{}) (*dynamodb.PutItemOutput, err
 		ReturnValues: aws.String("ALL_OLD"),
 	})
 	if err != nil {
-		golog.Errorf("Error when put item into DynamoDB: %s , %s ", tableName, err)
+		golog.Errorf("[fac_dynamo]-Error when put item into DynamoDB: %s , %s ", tableName, err)
 		return result, err
 	}
 
 	//jsonOutPut, _ := json.Marshal(result.Attributes)
-	golog.Infof("Success: %s", result.String())
+	golog.Infof("[fac_dynamo]-Success: %s", result.String())
 
 	return result, nil
 }
@@ -52,8 +52,8 @@ func PutItem(tableName string, object interface{}) (*dynamodb.PutItemOutput, err
 func Query(queryInput *dynamodb.QueryInput) (*dynamodb.QueryOutput, error) {
 	result, err := dynamodbAPI.Query(queryInput)
 	if err != nil {
-		golog.Errorf("Error: %s", err)
-		golog.Warn("Item not found!")
+		golog.Errorf("[fac_dynamo]-Error: %s", err)
+		golog.Warn("[fac_dynamo]-Item not found!")
 	}
 	return result, nil
 }
@@ -63,8 +63,8 @@ func Scan(scanInput *dynamodb.ScanInput) (*dynamodb.ScanOutput, error) {
 
 	result, err := dynamodbAPI.Scan(scanInput)
 	if err != nil {
-		golog.Errorf("Error: %s", err)
-		golog.Warn("Item not found!")
+		golog.Errorf("[fac_dynamo]-Error: %s", err)
+		golog.Warn("[fac_dynamo]-Item not found!")
 	}
 	return result, nil
 }
@@ -74,12 +74,11 @@ func ListTables() {
 
 	result, err := dynamodbAPI.ListTables(nil)
 	if err != nil {
-		golog.Errorf("Error: %s", err)
+		golog.Errorf("[fac_dynamo]-Error: %x", err)
 	}
 
 	for _, t := range result.TableNames {
-		golog.Infof("* %s \n",
-			aws.StringValue(t))
+		golog.Infof("[fac_dynamo]-* %s ", aws.StringValue(t))
 	}
 
 }

@@ -60,11 +60,11 @@ func SendMessageToQueueURL(queueURL string, message string) (*sqs.SendMessageOut
 func messageSender(messageInput *sqs.SendMessageInput) (*sqs.SendMessageOutput, error) {
 	result, err := sqsAPI.SendMessage(messageInput)
 	if err != nil {
-		golog.Errorf("Error sending message to queue: %s , %s ", *messageInput.QueueUrl, err)
+		golog.Errorf("[fac_sqs]-Error sending message to queue: %s , %s ", *messageInput.QueueUrl, err)
 		return nil, err
 	}
 
-	golog.Info("Success: %s", result.MessageId)
+	golog.Infof("[fac_sqs]-Success: %s", *result.MessageId)
 	return result, nil
 }
 
@@ -73,11 +73,11 @@ func ListQueues() {
 
 	result, err := sqsAPI.ListQueues(nil)
 	if err != nil {
-		golog.Errorf("Error: %x", err)
+		golog.Errorf("[fac_sqs]-Error: %x", err)
 	}
 
 	for _, b := range result.QueueUrls {
-		golog.Infof("* %s", aws.StringValue(b))
+		golog.Infof("[fac_sqs]-* %s", aws.StringValue(b))
 	}
 
 }
@@ -89,7 +89,7 @@ func GetQueueURL(queueName string) *string {
 		QueueName: &queueName,
 	})
 	if err != nil {
-		golog.Errorf("Error recovering queueURL: %x", err)
+		golog.Errorf("[fac_sqs]-Error recovering queueURL: %x", err)
 	}
 	return output.QueueUrl
 }

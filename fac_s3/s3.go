@@ -24,12 +24,12 @@ func ListBuckets() (*s3.ListBucketsOutput, error) {
 
 	result, err := s3API.ListBuckets(nil)
 	if err != nil {
-		golog.Errorf("Error: %x", err)
+		golog.Errorf("[fac_s3]-Error: %x", err)
 		return nil, err
 	}
 
 	for _, b := range result.Buckets {
-		golog.Errorf("* %s created on %s",
+		golog.Errorf("[fac_s3]-* %s created on %s",
 			aws.StringValue(b.Name), aws.TimeValue(b.CreationDate))
 	}
 
@@ -42,11 +42,11 @@ func PrintBuckets() error {
 
 	result, err := s3API.ListBuckets(nil)
 	if err != nil {
-		golog.Errorf("Error: %x", err)
+		golog.Errorf("[fac_s3]-Error: %x", err)
 	}
 
 	for _, b := range result.Buckets {
-		golog.Infof("* %s created on %s",
+		golog.Infof("[fac_s3]-* %s created on %s",
 			aws.StringValue(b.Name), aws.TimeValue(b.CreationDate))
 	}
 
