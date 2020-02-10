@@ -2,7 +2,7 @@ package facsqs
 
 import (
 	"github.com/kataras/golog"
-	"github.com/wagner-aos/go-fast-aws-connections/fac_clients"
+	facclients "github.com/wagner-aos/go-fast-aws-connections/fac_clients"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/sqs"
@@ -15,8 +15,8 @@ var (
 )
 
 //Start - initializes SQS client
-func Start(profile string) {
-	sqsAPI = facclients.SQS(profile)
+func Start(region string, profile string) {
+	sqsAPI = facclients.SQS(region, profile)
 }
 
 //SendMessageInputToQueueURL - it sends message input to any SQS Queue URL
@@ -26,22 +26,27 @@ func SendMessageInputToQueueURL(messageInput *sqs.SendMessageInput) (*sqs.SendMe
 
 //SendMessageInput - it sends message input to any SQS Queue
 func SendMessageInput(messageInput *sqs.SendMessageInput) (*sqs.SendMessageOutput, error) {
-	queueURL := GetQueueURL(*messageInput.QueueUrl)
+	queueURL, err := GetQueueURL(*messageInput.QueueUrl)
+	if err != nil {
+		return nil, err
+	}
 	messageInput.SetQueueUrl(*queueURL)
-
 	return messageSender(messageInput)
 }
 
 //SendMessage - it sends message to any SQS Queue
 func SendMessage(queueName string, message string) (*sqs.SendMessageOutput, error) {
 
-	queueURL := GetQueueURL(queueName)
-	messageInput := &sqs.SendMessageInput{
-		MessageBody:    aws.String(message),
-		MessageGroupId: aws.String("GroupID"),
-		QueueUrl:       queueURL,
+	queueURL, err := GetQueueURL(queueName)
+	if err != nil {
+		return nil, err
 	}
 
+	messageInput := &sqs.SendMessageInput{
+		MessageBody: aws.String(message),
+		//MessageGroupId: aws.String("GroupID"),
+		QueueUrl: queueURL,
+	}
 	return messageSender(messageInput)
 }
 
@@ -49,9 +54,9 @@ func SendMessage(queueName string, message string) (*sqs.SendMessageOutput, erro
 func SendMessageToQueueURL(queueURL string, message string) (*sqs.SendMessageOutput, error) {
 
 	messageInput := &sqs.SendMessageInput{
-		MessageBody:    aws.String(message),
-		MessageGroupId: aws.String("GroupID"),
-		QueueUrl:       aws.String(queueURL),
+		MessageBody: aws.String(message),
+		//MessageGroupId: aws.String("GroupID"),
+		QueueUrl: aws.String(queueURL),
 	}
 
 	return messageSender(messageInput)
@@ -70,27 +75,28 @@ func messageSender(messageInput *sqs.SendMessageInput) (*sqs.SendMessageOutput, 
 }
 
 //ListQueues - list all available sqs queues
-func ListQueues() {
+func ListQueues() []*string {
 
 	result, err := sqsAPI.ListQueues(nil)
 	if err != nil {
-		golog.Errorf("[fac_sqs]-Error: %x", err)
+		golog.Errorf("[fac_sqs]-Error listing queues: %s", err)
 	}
 
 	for _, b := range result.QueueUrls {
 		golog.Infof("[fac_sqs]-* %s", aws.StringValue(b))
 	}
 
+	return result.QueueUrls
 }
 
 //GetQueueURL - get queue entire URL in order to send messages to SQS.
-func GetQueueURL(queueName string) *string {
-
+func GetQueueURL(queueName string) (*string, error) {
 	output, err := sqsAPI.GetQueueUrl(&sqs.GetQueueUrlInput{
 		QueueName: &queueName,
 	})
 	if err != nil {
-		golog.Errorf("[fac_sqs]-Error recovering queueURL: %x", err)
+		golog.Errorf("[fac_sqs]-Error recovering queueURL: %s", err)
+		return nil, err
 	}
-	return output.QueueUrl
+	return output.QueueUrl, nil
 }

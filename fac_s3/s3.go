@@ -2,7 +2,7 @@ package facs3
 
 import (
 	"github.com/kataras/golog"
-	"github.com/wagner-aos/go-fast-aws-connections/fac_clients"
+	facclients "github.com/wagner-aos/go-fast-aws-connections/fac_clients"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/s3"
@@ -15,8 +15,8 @@ var (
 )
 
 //Start - initializes S3 client
-func Start(profile string) {
-	s3API = facclients.S3(profile)
+func Start(region string, profile string) {
+	s3API = facclients.S3(region, profile)
 }
 
 //ListBuckets - list all s3 available buckets
@@ -24,7 +24,7 @@ func ListBuckets() (*s3.ListBucketsOutput, error) {
 
 	result, err := s3API.ListBuckets(nil)
 	if err != nil {
-		golog.Errorf("[fac_s3]-Error: %x", err)
+		golog.Errorf("[fac_s3]-Error: %s", err)
 		return nil, err
 	}
 
@@ -42,7 +42,7 @@ func PrintBuckets() error {
 
 	result, err := s3API.ListBuckets(nil)
 	if err != nil {
-		golog.Errorf("[fac_s3]-Error: %x", err)
+		golog.Errorf("[fac_s3]-Error: %s", err)
 	}
 
 	for _, b := range result.Buckets {

@@ -4,7 +4,7 @@ import (
 	"os"
 
 	"github.com/kataras/golog"
-	"github.com/wagner-aos/go-fast-aws-connections/fac_clients"
+	facclients "github.com/wagner-aos/go-fast-aws-connections/fac_clients"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
@@ -18,8 +18,8 @@ var (
 )
 
 //Start - initializes S3 client
-func Start(profile string) {
-	dynamodbAPI = facclients.DynamoDB(profile)
+func Start(region string, profile string) {
+	dynamodbAPI = facclients.DynamoDB(region, profile)
 }
 
 //PutItem - It inputs and item into a dynamo table.
