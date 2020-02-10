@@ -1,8 +1,8 @@
-package main
+package test
 
 import (
 	"github.com/kataras/golog"
-	"github.com/wagner-aos/go-fast-aws-connections/fac_dynamodb"
+	facdynamodb "github.com/wagner-aos/go-fast-aws-connections/fac_dynamodb"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
@@ -13,9 +13,10 @@ func main() {
 }
 
 func query() {
-	profile := "asappay-Dev"
+	profile := "asappay-dev"
+	region := "us-east-1"
 
-	facdynamodb.Start(profile)
+	facdynamodb.Start(region, profile)
 
 	posID := "00000002"
 	merchantID := "000000000000001"
