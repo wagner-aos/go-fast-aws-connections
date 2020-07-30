@@ -10,13 +10,13 @@ func test() {
 	region := "us-east-1"
 
 	//profile
-	facs3.Start(region, profile)
+	facs3.Start(region, profile, "")
 	facs3.ListBuckets()
 
-	facsqs.Start(region, profile)
+	facsqs.Start(region, profile, "")
 	facsqs.ListQueues()
 
-	facdynamodb.Start(region, profile)
+	facdynamodb.Start(region, profile, "")
 	facdynamodb.ListTables()
 
 }

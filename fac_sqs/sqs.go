@@ -15,8 +15,8 @@ var (
 )
 
 //Start - initializes SQS client
-func Start(region string, profile string) {
-	sqsAPI = facclients.SQS(region, profile)
+func Start(region, profile, endpoint string) {
+	sqsAPI = facclients.SQS(region, profile, endpoint)
 }
 
 //SendMessageInputToQueueURL - it sends message input to any SQS Queue URL

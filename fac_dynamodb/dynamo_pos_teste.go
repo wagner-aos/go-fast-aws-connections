@@ -56,7 +56,7 @@ func TestProduct() {
 
 	profile := "asappay-Dev"
 	region := "us-east-1"
-	Start(region, profile)
+	Start(region, profile, "")
 	PutItem("PaymentProcessorProduct", posContract)
 }
 

@@ -15,8 +15,8 @@ var (
 )
 
 //Start - initializes S3 client
-func Start(region string, profile string) {
-	s3API = facclients.S3(region, profile)
+func Start(region, profile, endpoint string) {
+	s3API = facclients.S3(region, profile, endpoint)
 }
 
 //ListBuckets - list all s3 available buckets

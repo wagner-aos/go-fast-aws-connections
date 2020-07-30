@@ -18,8 +18,8 @@ var (
 )
 
 //Start - initializes S3 client
-func Start(region string, profile string) {
-	dynamodbAPI = facclients.DynamoDB(region, profile)
+func Start(region, profile, endpoint string) {
+	dynamodbAPI = facclients.DynamoDB(region, profile, endpoint)
 }
 
 //PutItem - It inputs and item into a dynamo table.

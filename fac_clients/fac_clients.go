@@ -12,19 +12,29 @@ import (
 )
 
 // S3 - client
-func S3(region string, profile string) s3iface.S3API {
+func S3(region, profile, endpoint string) s3iface.S3API {
 	//c := awscredentials.Clients{}
-	return s3.New(awscredentials.GetCredentialsWithChain(region, profile))
+	session, config := awscredentials.GetCredentialsWithChain(region, profile)
+	if len(endpoint) > 0 {
+		config.Endpoint = &endpoint
+	}
+	return s3.New(session, config)
 }
 
 // SQS - client
-func SQS(region string, profile string) sqsiface.SQSAPI {
-	//c := awscredentials.Clients{}
-	return sqs.New(awscredentials.GetCredentialsWithChain(region, profile))
+func SQS(region, profile, endpoint string) sqsiface.SQSAPI {
+	session, config := awscredentials.GetCredentialsWithChain(region, profile)
+	if len(endpoint) > 0 {
+		config.Endpoint = &endpoint
+	}
+	return sqs.New(session, config)
 }
 
 // DynamoDB - client
-func DynamoDB(region string, profile string) dynamodbiface.DynamoDBAPI {
-	//c := awscredentials.Clients{}
-	return dynamodb.New(awscredentials.GetCredentialsWithChain(region, profile))
+func DynamoDB(region, profile, endpoint string) dynamodbiface.DynamoDBAPI {
+	session, config := awscredentials.GetCredentialsWithChain(region, profile)
+	if len(endpoint) > 0 {
+		config.Endpoint = &endpoint
+	}
+	return dynamodb.New(session, config)
 }

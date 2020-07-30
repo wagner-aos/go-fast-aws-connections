@@ -16,7 +16,7 @@ func query() {
 	profile := "asappay-dev"
 	region := "us-east-1"
 
-	facdynamodb.Start(region, profile)
+	facdynamodb.Start(region, profile, "")
 
 	posID := "00000002"
 	merchantID := "000000000000001"
