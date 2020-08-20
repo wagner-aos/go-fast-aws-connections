@@ -140,7 +140,9 @@ Method to send messages to SQS Queue:
 
 | Data | Autor | Descrição | Versao |
 | --- | --- | --- | --- |
-| 10/10/2020 | Wagner Alves (aka Barão) | New AWS Credentials Chain | 0.0.2 | 
+| 20/08/2020 | Wagner Alves (aka Barão) | Added SQS Receiver | 0.0.4 |
+| 10/10/2020 | Wagner Alves (aka Barão) | Added Endpoint to Config | 0.0.3 | 
+| 03/01/2019 | Wagner Alves (aka Barão) | New AWS Credentials Chain | 0.0.2 | 
 | 03/01/2019 | Wagner Alves (aka Barão) | Initial Version | 0.0.1 | 
 
 
@@ -153,5 +155,29 @@ Method to send messages to SQS Queue:
 - Cloud Formation para criação de recursos e execução de testes.
 - Converter este READ ME para o inglẽs.
 - Criação automática de recursos na AWS para testes.
+
+
+
+## Useful commands:
+
+###  Creating a version of this lib:
+
+* 1- Create a git tag with the version number
+```sh
+    git tag -a v0.0.4 -m "my version 0.0.4"
+```
+
+* 2- Push the tag to git repo
+```sh
+    git push origin v0.0.4
+```
+
+* 3- Now the new version can be dowloaded to the other projects
+
+```sh
+    go get -v "github.com/wagner-aos/go-fast-aws-connections"
+```
+
+
 
 ## I hope you enjoy it and feel free to colaborate!!!
