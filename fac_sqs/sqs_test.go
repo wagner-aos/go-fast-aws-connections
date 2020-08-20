@@ -80,3 +80,23 @@ func TestReceiveMessageInput(t *testing.T) {
 	t.Logf(" ERROR = %s", err)
 	assert.Nil(t, err)
 }
+
+func TestDeleteMessageInput(t *testing.T) {
+	Start(region, profile, "")
+
+	queueURL, err := GetQueueURL("fac_sqs")
+	t.Logf(" Queue URL: = %s", *queueURL)
+
+	messages, err := ReceiveMessage("fac_sqs")
+
+	deleteMessageInput := &sqs.DeleteMessageInput{
+		QueueUrl:      queueURL,
+		ReceiptHandle: messages.Messages[0].ReceiptHandle,
+	}
+
+	output, err := DeleteMessageInput(deleteMessageInput)
+
+	t.Logf(" output = %s", *output)
+	t.Logf(" ERROR = %s", err)
+	assert.Nil(t, err)
+}

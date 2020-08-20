@@ -164,12 +164,12 @@ Method to send messages to SQS Queue:
 
 * 1- Create a git tag with the version number
 ```sh
-    git tag -a v0.0.4 -m "my version 0.0.4"
+    git tag -a v0.0.5 -m "SQS Delete Messages"
 ```
 
 * 2- Push the tag to git repo
 ```sh
-    git push origin v0.0.4
+    git push origin v0.0.5
 ```
 
 * 3- Now the new version can be dowloaded to the other projects

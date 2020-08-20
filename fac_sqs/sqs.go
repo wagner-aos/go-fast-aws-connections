@@ -129,6 +129,40 @@ func messageReceiver(receiveMessageInput *sqs.ReceiveMessageInput) (*sqs.Receive
 	return output, nil
 }
 
+//DeleteMessageInput - it deletes messages
+func DeleteMessageInput(deleteMessageInput *sqs.DeleteMessageInput) (*sqs.DeleteMessageOutput, error) {
+	output, err := messageDelete(deleteMessageInput)
+	return output, err
+}
+
+//DeleteMessageBatchInput - it deletes batch messages
+func DeleteMessageBatchInput(deleteMessageBatchInput *sqs.DeleteMessageBatchInput) (*sqs.DeleteMessageBatchOutput, error) {
+	output, err := messageBatchDelete(deleteMessageBatchInput)
+	return output, err
+}
+
+func messageDelete(deleteMessageInput *sqs.DeleteMessageInput) (*sqs.DeleteMessageOutput, error) {
+	output, err := sqsAPI.DeleteMessage(deleteMessageInput)
+	if err != nil {
+		golog.Errorf("[fac_sqs] - %s", err)
+		return nil, err
+	}
+	golog.Debug("[fac_sqs]-Delete Message OK.")
+	golog.Debugf("[fac_sqs]- %v", output.String())
+	return output, nil
+}
+
+func messageBatchDelete(deleteMessageBatchInput *sqs.DeleteMessageBatchInput) (*sqs.DeleteMessageBatchOutput, error) {
+	output, err := sqsAPI.DeleteMessageBatch(deleteMessageBatchInput)
+	if err != nil {
+		golog.Errorf("[fac_sqs] - %s", err)
+		return nil, err
+	}
+	golog.Debug("[fac_sqs]-Delete Batch Message OK.")
+	golog.Debugf("[fac_sqs]- %v", output.String())
+	return output, nil
+}
+
 //GetQueueURL - get queue entire URL in order to send messages to SQS.
 func GetQueueURL(queueName string) (*string, error) {
 	output, err := sqsAPI.GetQueueUrl(&sqs.GetQueueUrlInput{

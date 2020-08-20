@@ -11,7 +11,7 @@
 3. Tag the version:
 
 ```sh
-    git tag -a v0.0.3 -m "Added Endpoint to Config"
+    git tag -a v0.0.3 -m "Added SQS Receiver"
 ```
 
 3. Push to branch master.
