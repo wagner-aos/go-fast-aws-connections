@@ -89,6 +89,46 @@ func ListQueues() []*string {
 	return result.QueueUrls
 }
 
+//ReceiveMessage - it receives message from any SQS Queue
+func ReceiveMessage(queueName string) (*sqs.ReceiveMessageOutput, error) {
+
+	queueURL, err := GetQueueURL(queueName)
+	if err != nil {
+		return nil, err
+	}
+
+	receiveMessageInput := &sqs.ReceiveMessageInput{
+		AttributeNames: []*string{
+			aws.String(sqs.MessageSystemAttributeNameSentTimestamp),
+		},
+		MessageAttributeNames: []*string{
+			aws.String(sqs.QueueAttributeNameAll),
+		},
+		QueueUrl:            queueURL,
+		MaxNumberOfMessages: aws.Int64(int64(1)),
+		WaitTimeSeconds:     aws.Int64(int64(1)),
+	}
+	output, err := messageReceiver(receiveMessageInput)
+	return output, err
+}
+
+//ReceiveMessageInput - it receives message input to any SQS Queue
+func ReceiveMessageInput(messageInput *sqs.ReceiveMessageInput) (*sqs.ReceiveMessageOutput, error) {
+	output, err := messageReceiver(messageInput)
+	return output, err
+}
+
+func messageReceiver(receiveMessageInput *sqs.ReceiveMessageInput) (*sqs.ReceiveMessageOutput, error) {
+	output, err := sqsAPI.ReceiveMessage(receiveMessageInput)
+	if err != nil {
+		golog.Errorf("[fac_sqs] - %s", err)
+		return nil, err
+	}
+	golog.Debug("[fac_sqs]-Receive Message OK.")
+	golog.Debugf("[fac_sqs]-Message: %v", output.Messages)
+	return output, nil
+}
+
 //GetQueueURL - get queue entire URL in order to send messages to SQS.
 func GetQueueURL(queueName string) (*string, error) {
 	output, err := sqsAPI.GetQueueUrl(&sqs.GetQueueUrlInput{

@@ -49,7 +49,9 @@ func query() {
 		golog.Error(err)
 	}
 
-	golog.Info("Success: %s", result.String())
+	if len(result.String()) > 0 {
+		golog.Infof("success: %s", result.String())
+	}
 
 }
 
